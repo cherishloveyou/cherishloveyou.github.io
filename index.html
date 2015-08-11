@@ -181,6 +181,52 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-AVPlayer的一些问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/11/AVPlayer的一些问题/" class="article-date">
+  	<time datetime="2015-08-11T03:29:33.000Z" itemprop="datePublished">2015-08-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、关于AVPlayerItem的Duration问题">一、关于AVPlayerItem的Duration问题</h2><blockquote>
+<p>​        最近在搞AVPlayer,HTTP Live Streaming Media.其中测试发现了一个bug,在使用airplay时有时候会出现总时间不正确的情况,大概可能在网络不好的情况下出现,总时间为1秒.</p>
+</blockquote>
+<p>在官方SDK里面的demo里面获取duration的代码:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/* ---------------------------------------------------------&#10; **  Get the duration for a AVPlayerItem. &#10; ** ------------------------------------------------------- */&#10;- (CMTime)playerItemDuration&#10;&#123;&#10;    AVPlayerItem *playerItem = [mPlayer currentItem];&#10;    if (playerItem.status == AVPlayerItemStatusReadyToPlay)&#10;    &#123;&#10;        /* &#10;         NOTE:&#10;         Because of the dynamic nature of HTTP Live Streaming Media, the best practice &#10;         for obtaining the duration of an AVPlayerItem object has changed in iOS 4.3. &#10;         Prior to iOS 4.3, you would obtain the duration of a player item by fetching &#10;         the value of the duration property of its associated AVAsset object. However, &#10;         note that for HTTP Live Streaming Media the duration of a player item during &#10;         any particular playback session may differ from the duration of its asset. For &#10;         this reason a new key-value observable duration property has been defined on &#10;         AVPlayerItem.&#10;&#10;         See the AV Foundation Release Notes for iOS 4.3 for more information.&#10;         */        &#10;&#10;        return([playerItem duration]);&#10;    &#125;&#10;    return(kCMTimeInvalid);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>在注释中有提到在iOS 4.3之前需要通过AVAsset来获取.为了兼容4.3以下的系统,对这里有进行一下修改</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (CMTime)playerItemDuration&#10;&#123;&#10;    CMTime itemDuration = KCMTimeZero;&#10;    if ([playerItem respondsToSelector:@selector(duration)]) &#123;&#10;        itemDuration = ([playerItem duration]);&#10;    &#125;&#10;    //&#36825;&#20010;&#31186;&#25968;&#21487;&#33021;&#26159;NaN,&#20250;&#36896;&#25104;&#23849;&#28291;&#10;    if(CMTIME_IS_INVALID(totalTime))&#123;&#10;        if ([playerItem respondsToSelector:@selector(asset)]) &#123;&#10;            AVAsset *asset = [playerItem asset];&#10;            if (asset) &#123;&#10;                return [asset duration];&#10;            &#125;&#10;       &#125;&#10;    &#125;&#10;    //&#21028;&#26029;&#36716;&#25442;&#30340;NSTimeInterval&#25968;&#20540;&#10;    //NSTimeInterval duration = CMTimeGetSeconds(itemDuration);&#10;    //if (isfinite(duration))&#10;    //&#123;&#10;    //&#125;&#10;    return itemDuration;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>​      后来发现一个问题就是[playerItem duration]有可能不会返回正确的数,而是返回了一个奇怪的数据,通过CMTimeGetSeconds(time)得到的是1秒,而同时[asset duration]返回的却是正确的数据.</p>
+<p>​       这大概可能是AVPlayerItem的一个bug.在改成通过AVAsset获取时间之后就没有再重现出总时间不正确的情况了.</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+  
     <article id="post-swift" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
