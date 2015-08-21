@@ -112,7 +112,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						
+						<a href="/tags/iOS/" style="font-size: 10px;">iOS</a>
 					</div>
 				</section>
 				
@@ -182,6 +182,131 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-NSUrl的缓存" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/21/NSUrl的缓存/" class="article-date">
+  	<time datetime="2015-08-21T05:35:49.000Z" itemprop="datePublished">2015-08-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/21/NSUrl的缓存/">NSUrl的缓存</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>清除所有的cookie 方法：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *url = [NSURL URLWithString:@&#34;http://www.github.com&#34;];&#10;if (url) &#123;&#10;    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:url];&#10;    for (int i = 0; i &#60; [cookies count]; i++) &#123;&#10;        NSHTTPCookie *cookie = (NSHTTPCookie *)[cookies objectAtIndex:i];&#10;        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];&#10;&#10;    &#125;</span><br></pre></td></tr></table></figure>
+<p>清除某一个特定的cookie方法：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSArray * cookArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:self.loadURL]]; NSString * successCode = @&#34;&#34;; for (NSHTTPCookie*cookie in cookArray) &#123; if ([cookie.name isEqualToString:@&#34;cookiename&#34;]) &#123; [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie]; &#125; &#125;</span><br></pre></td></tr></table></figure>
+<p>清除某一个url缓存的方法：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSURLCache sharedURLCache] removeCachedResponseForRequest:[NSURLRequest requestWithURL:url]];</span><br></pre></td></tr></table></figure>
+<p>清除所有缓存方法：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSURLCache sharedURLCache] removeAllCachedResponses];</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/develop/">develop</a>
+	</div>
+
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-class-dump的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/21/class-dump的使用/" class="article-date">
+  	<time datetime="2015-08-21T01:56:20.000Z" itemprop="datePublished">2015-08-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/21/class-dump的使用/">class-dump的使用</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>class-dump是开源的，可以直接下载class-dump的安装文件，或者下载<a href="https://github.com/nygard/class-dump" target="_blank" rel="external">class-dump的源码</a>，编译成功后把class-dump文件拖入 /usr/local/bin目录下，这样就可以使用class-dump的命令了。</li>
+<li>class-dump使用方法在GitHub上有具体的各种命令。打印出要查看App的头文件</li>
+</ul>
+<blockquote>
+<p>class-dump -H /Applications/Calculator.app -o /Users/Rio/Desktop/calculate\ heads</p>
+<p>解释：</p>
+<p>/Applications/Calculator.app 是计算器app的路径</p>
+<p>/Users/moon/Desktop/calculate\ heads 是存放dump出来头文件的文件夹路径</p>
+</blockquote>
+<ul>
+<li>上面这个是对未加壳的App处理，一般从AppStore下载下来的App，苹果都做了加密签名(也就是加壳)，所以在使用class－dump之前，我们还得先做一层去壳处理才能使用。比如<a href="https://github.com/KJCracks/Clutch" target="_blank" rel="external">clutch地址</a></li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-AVPlayer的一些纪录" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -208,7 +333,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我的游戏的很好玩</p>
+        <ul>
+<li><strong>关于AVPlayerItem的Duration问题</strong></li>
+</ul>
+<p>最近在搞AVPlayer,HTTP Live Streaming Media.其中测试发现了一个bug,在使用airplay时有时候会出现总时间不正确的情况,大概可能在网络不好的情况下出现,总时间为1秒.</p>
+<p>在官方SDK里面的demo里面获取duration的代码:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/* ---------------------------------------------------------&#10; **  Get the duration for a AVPlayerItem. &#10; ** ------------------------------------------------------- */&#10;- (CMTime)playerItemDuration&#10;&#123;&#10;    AVPlayerItem *playerItem = [mPlayer currentItem];&#10;    if (playerItem.status == AVPlayerItemStatusReadyToPlay)&#10;    &#123;&#10;        /* &#10;         NOTE:&#10;         Because of the dynamic nature of HTTP Live Streaming Media, the best practice &#10;         for obtaining the duration of an AVPlayerItem object has changed in iOS 4.3. &#10;         Prior to iOS 4.3, you would obtain the duration of a player item by fetching &#10;         the value of the duration property of its associated AVAsset object. However, &#10;         note that for HTTP Live Streaming Media the duration of a player item during &#10;         any particular playback session may differ from the duration of its asset. For &#10;         this reason a new key-value observable duration property has been defined on &#10;         AVPlayerItem.&#10;&#10;         See the AV Foundation Release Notes for iOS 4.3 for more information.&#10;         */        &#10;&#10;        return([playerItem duration]);&#10;    &#125;&#10;    return(kCMTimeInvalid);&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>在注释中有提到在iOS 4.3之前需要通过AVAsset来获取.为了兼容4.3以下的系统,对这里有进行一下修改</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (CMTime)playerItemDuration&#10;&#123;&#10;    CMTime itemDuration = KCMTimeZero;&#10;    if ([playerItem respondsToSelector:@selector(duration)]) &#123;&#10;        itemDuration = ([playerItem duration]);&#10;    &#125;&#10;    //&#36825;&#20010;&#31186;&#25968;&#21487;&#33021;&#26159;NaN,&#20250;&#36896;&#25104;&#23849;&#28291;&#10;    if(CMTIME_IS_INVALID(totalTime))&#123;&#10;        if ([playerItem respondsToSelector:@selector(asset)]) &#123;&#10;            AVAsset *asset = [playerItem asset];&#10;            if (asset) &#123;&#10;                return [asset duration];&#10;            &#125;&#10;       &#125;&#10;    &#125;&#10;    //&#21028;&#26029;&#36716;&#25442;&#30340;NSTimeInterval&#25968;&#20540;&#10;    //NSTimeInterval duration = CMTimeGetSeconds(itemDuration);&#10;    //if (isfinite(duration))&#10;    //&#123;&#10;    //&#125;&#10;    return itemDuration;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>​      后来发现一个问题就是[playerItem duration]有可能不会返回正确的数,而是返回了一个奇怪的数据,通过CMTimeGetSeconds(time)得到的是1秒,而同时[asset duration]返回的却是正确的数据.</p>
+<p>​       这大概可能是AVPlayerItem的一个bug.在改成通过AVAsset获取时间之后就没有再重现出总时间不正确的情况了.</p>
 
       
     </div>
@@ -216,7 +350,15 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/develop/">develop</a>
+	</div>
+
 
       
       <div class="clearfix"></div>
